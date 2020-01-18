@@ -4,7 +4,7 @@ import dictionary from "../data"
 
 class Game extends Component {
     state = {
-        timer: 40,
+        timer: 60,
         score: 0,
         currStep: 0,
         isGameOver: false,

@@ -11,15 +11,15 @@ const Home = () => {
    }
    return (
       <View style={styles.container}>
-         <Text>100 mots pour apprendre l'italien</Text>
+         <Text style={styles.text}>100 mots pour apprendre l'italien</Text>
          <View style={styles.btnContainer}>
-            <Button 
-                title="Jouer"
-                onPress={goToGame}
+            <Button
+               title="Jouer"
+               onPress={goToGame}
             />
             <Button 
-                title="À propos"
-                onPress={goToAbout}
+               title="À propos"
+               onPress={goToAbout}
             />
         </View>
       </View>
@@ -35,7 +35,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: "relative"
   },
+  text: {
+   fontSize: 20,
+   fontWeight: "bold",
+   position: "absolute",
+   top: "10%"
+  },
   btnContainer: {
       flexDirection: "row",
+      justifyContent: "space-between",
+      width: "50%"
   }
 });
