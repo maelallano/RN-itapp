@@ -7,7 +7,8 @@ class Game extends Component {
         timer: 30,
         score: 0,
         currStep: 0,
-        isGameOver: false
+        isGameOver: false,
+        gameDictionary: []
     }
 
     componentDidMount() {
@@ -18,8 +19,19 @@ class Game extends Component {
         this.stop()
     }
 
+    shuffle = arr => {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
     newGame = () => {
-        console.log(dictionary)
+        let gameDictionary = this.shuffle(dictionary).slice(0, 20)
+        this.setState({
+            gameDictionary
+        })
 
         this.interval = setInterval(() => {
             if (this.state.timer <= 0) {
@@ -55,7 +67,12 @@ class Game extends Component {
     }
 
     render() {
-        const { timer, score, currStep, isGameOver } = this.state
+        const { timer, score, currStep, isGameOver, gameDictionary } = this.state
+        
+        if (!gameDictionary.length) {
+            return <Text>Loading ...</Text>
+        }
+
         return (
             <View style={styles.container}>
                 {!isGameOver ? (
@@ -63,7 +80,7 @@ class Game extends Component {
                         <Text>Temps restant: {timer}s</Text>
                         <Text>Score: {currStep === 0 ? "0" : `${score}/${currStep}`}</Text>
                         <View>
-                            <Text>TEST</Text>
+                            <Text>{gameDictionary[currStep] && gameDictionary[currStep].text}</Text>
                             <View>
                                 <Button
                                     title="test"
