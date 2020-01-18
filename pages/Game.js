@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Button } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import dictionary from "../data"
 
 class Game extends Component {
@@ -111,25 +111,29 @@ class Game extends Component {
             <View style={styles.container}>
                 {!isGameOver ? (
                     <View style={styles.container}>
-                        <Text>Temps restant: {timer}s</Text>
-                        <Text>Score: {currStep === 0 ? "0" : `${score}/${currStep}`}</Text>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.text}>Temps restant: {timer}s</Text>
+                            <Text style={styles.text}>Score: {currStep === 0 ? "0" : `${score}/${currStep}`}</Text>
+                        </View>
                         <View>
-                            <Text>{gameDictionary[currStep] && gameDictionary[currStep].text}</Text>
-                            <View>
+                            <Text style={styles.title}>{gameDictionary[currStep] && gameDictionary[currStep].text}</Text>
+                            <View style={styles.answersContainer}>
                                 {answers.map((answer, index) => (
-                                    <Button
+                                    <TouchableOpacity
                                         key={`answer__${index}`}
-                                        title={answer.text}
                                         onPress={() => this.nextStep(answer.isAnswer)}
-                                    />
+                                        style={styles.btn}
+                                    >
+                                        <Text style={styles.text}>{answer.text}</Text>
+                                    </TouchableOpacity>
                                 ))}
                             </View>
                         </View>
                     </View>
                ) : (
                     <View style={styles.container}>
-                        <Text>Game over</Text>
-                        <Text>Ton score est de {score}/20</Text>
+                        <Text style={styles.text}>Fin de partie</Text>
+                        <Text style={styles.text}>Ton score est de {score}/20</Text>
                     </View>
                )}
            </View>
@@ -139,11 +143,41 @@ class Game extends Component {
 export default Game
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: "relative"
-  }
+    container: {
+       flex: 1,
+       backgroundColor: '#fcfcfc',
+       alignItems: 'center',
+       justifyContent: 'center',
+       position: "relative"
+    },
+    infoContainer: {
+        position: "absolute",
+        top: "5%",
+        left: "10%"
+    },
+    title: {
+       fontSize: 24,
+       fontWeight: "bold",
+       textAlign: "center",
+       marginBottom: 40
+    },
+    btnContainer: {
+       flexDirection: "row"
+    },
+    answersContainer: {
+        flexWrap: "wrap",
+        flexDirection: "row",
+        justifyContent: "center"
+    },
+    btn: {
+       backgroundColor: "#DDDDDD",
+       padding: 16,
+       width: 140,
+       alignItems: "center",
+       borderRadius: 4,
+       margin: 20
+    },
+    text: {
+       fontSize: 18
+    }
 })
