@@ -9,7 +9,8 @@ class Game extends Component {
         currStep: 0,
         isGameOver: false,
         gameDictionary: [],
-        answers: []
+        answers: [],
+        isCorrect: null
     }
 
     componentDidMount() {
@@ -79,12 +80,18 @@ class Game extends Component {
     nextStep = isCorrectAnswer => {
         this.setState({
             score: isCorrectAnswer ? this.state.score + 1 : this.state.score,
-            currStep: this.state.currStep + 1
+            currStep: this.state.currStep + 1,
+            isCorrect: isCorrectAnswer
         }, () => {
             if (this.state.currStep >= 20) {
                 this.gameOver()
                 return
             }
+            setTimeout(() => {
+                this.setState({
+                    isCorrect: null
+                })
+            }, 300)
             this.newAnswers()
         })
     }
@@ -101,7 +108,7 @@ class Game extends Component {
     }
 
     render() {
-        const { timer, score, currStep, isGameOver, gameDictionary, answers } = this.state
+        const { timer, score, currStep, isGameOver, gameDictionary, answers, isCorrect } = this.state
         
         if (!gameDictionary.length || !answers.length) {
             return <Text>Loading ...</Text>
@@ -110,7 +117,7 @@ class Game extends Component {
         return (
             <View style={styles.container}>
                 {!isGameOver ? (
-                    <View style={styles.container}>
+                    <View style={isCorrect === null ? styles.container : (isCorrect ? styles.rightAnswer : styles.wrongAnswer)}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.text}>Temps restant: {timer}s</Text>
                             <Text style={styles.text}>Score: {currStep === 0 ? "0" : `${score}/${currStep}`}</Text>
@@ -179,5 +186,19 @@ const styles = StyleSheet.create({
     },
     text: {
        fontSize: 18
+    },
+    rightAnswer: {
+        flex: 1,
+        backgroundColor: 'green',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: "relative"
+    },
+    wrongAnswer: {
+        flex: 1,
+        backgroundColor: 'red',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: "relative"
     }
 })
