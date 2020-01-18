@@ -201,14 +201,14 @@ const styles = StyleSheet.create({
     },
     rightAnswer: {
         flex: 1,
-        backgroundColor: 'green',
+        backgroundColor: '#367a28',
         alignItems: 'center',
         justifyContent: 'center',
         position: "relative"
     },
     wrongAnswer: {
         flex: 1,
-        backgroundColor: 'red',
+        backgroundColor: 'rgba(147, 29, 29, 0.9)',
         alignItems: 'center',
         justifyContent: 'center',
         position: "relative"

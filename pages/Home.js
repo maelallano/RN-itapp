@@ -34,23 +34,25 @@ const styles = StyleSheet.create({
       position: "relative"
    },
    title: {
-      fontSize: 20,
+      fontSize: 28,
       fontWeight: "bold",
       position: "absolute",
-      top: "20%"
+      top: "20%",
+      textAlign: "center",
+      lineHeight: 42
    },
    btnContainer: {
       flexDirection: "row"
    },
    btn: {
       backgroundColor: "#DDDDDD",
-      padding: 10,
+      padding: 12,
       width: 100,
       alignItems: "center",
       borderRadius: 4,
       margin: 20
    },
    text: {
-      fontSize: 16
+      fontSize: 18
    }
 })
