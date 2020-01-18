@@ -4,11 +4,12 @@ import dictionary from "../data"
 
 class Game extends Component {
     state = {
-        timer: 30,
+        timer: 40,
         score: 0,
         currStep: 0,
         isGameOver: false,
-        gameDictionary: []
+        gameDictionary: [],
+        answers: []
     }
 
     componentDidMount() {
@@ -27,10 +28,41 @@ class Game extends Component {
         return arr;
     }
 
+    newAnswers = () => {
+        let tempDictionary = [...this.state.gameDictionary]
+        const answer = tempDictionary.splice(this.state.currStep, 1)
+        tempDictionary = this.shuffle(tempDictionary)
+
+        const answers = [
+            {
+                text: answer[0].translation,
+                isAnswer: true
+            },
+            {
+                text: tempDictionary[0].translation,
+                isAnswer: false
+            },
+            {
+                text: tempDictionary[1].translation,
+                isAnswer: false
+            },
+            {
+                text: tempDictionary[2].translation,
+                isAnswer: false
+            }
+        ]
+
+        this.setState({
+            answers: this.shuffle(answers)
+        })
+    }
+
     newGame = () => {
         let gameDictionary = this.shuffle(dictionary).slice(0, 20)
         this.setState({
             gameDictionary
+        }, () => {
+            this.newAnswers()
         })
 
         this.interval = setInterval(() => {
@@ -51,7 +83,9 @@ class Game extends Component {
         }, () => {
             if (this.state.currStep >= 20) {
                 this.gameOver()
+                return
             }
+            this.newAnswers()
         })
     }
 
@@ -67,9 +101,9 @@ class Game extends Component {
     }
 
     render() {
-        const { timer, score, currStep, isGameOver, gameDictionary } = this.state
+        const { timer, score, currStep, isGameOver, gameDictionary, answers } = this.state
         
-        if (!gameDictionary.length) {
+        if (!gameDictionary.length || !answers.length) {
             return <Text>Loading ...</Text>
         }
 
@@ -82,22 +116,13 @@ class Game extends Component {
                         <View>
                             <Text>{gameDictionary[currStep] && gameDictionary[currStep].text}</Text>
                             <View>
-                                <Button
-                                    title="test"
-                                    onPress={() => this.nextStep(true)}
-                                />
-                                <Button
-                                    title="test2"
-                                    onPress={() => this.nextStep(false)}
-                                />
-                                <Button
-                                    title="test3"
-                                    onPress={() => this.nextStep(false)}
-                                />
-                                <Button
-                                    title="test3"
-                                    onPress={() => this.nextStep(false)}
-                                />
+                                {answers.map((answer, index) => (
+                                    <Button
+                                        key={`answer__${index}`}
+                                        title={answer.text}
+                                        onPress={() => this.nextStep(answer.isAnswer)}
+                                    />
+                                ))}
                             </View>
                         </View>
                     </View>
