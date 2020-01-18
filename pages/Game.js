@@ -61,7 +61,13 @@ class Game extends Component {
     newGame = () => {
         let gameDictionary = this.shuffle(dictionary).slice(0, 20)
         this.setState({
-            gameDictionary
+            timer: 60,
+            score: 0,
+            currStep: 0,
+            isGameOver: false,
+            gameDictionary,
+            isCorrect: null
+
         }, () => {
             this.newAnswers()
         })
@@ -141,6 +147,12 @@ class Game extends Component {
                     <View style={styles.container}>
                         <Text style={styles.text}>Fin de partie</Text>
                         <Text style={styles.text}>Ton score est de {score}/20</Text>
+                        <TouchableOpacity
+                            onPress={this.newGame}
+                            style={styles.btn}
+                        >
+                            <Text style={styles.text}>Réessayer</Text>
+                        </TouchableOpacity>
                     </View>
                )}
            </View>
